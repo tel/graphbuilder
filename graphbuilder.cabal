@@ -4,7 +4,11 @@
 name:                graphbuilder
 version:             0.1.0.0
 synopsis:            A declarative, monadic graph construction language for small graphs
--- description:         
+description:         
+
+  A declarative, monadic graph construction language for small
+  graphs. See README.
+
 homepage:            https://github.com/tel/graphbuilder
 license:             MIT
 license-file:        LICENSE
@@ -19,3 +23,7 @@ library
   hs-source-dirs:      src
   exposed-modules:     Data.Graph.Builder
   build-depends:       base ==4.5.*, mtl ==2.1.*, containers ==0.4.*
+
+source-repository head
+  type:     git
+  location: https://github.com/tel/graphbuilder.git
