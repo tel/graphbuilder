@@ -7,32 +7,33 @@ Maintainer  : Joseph Abrahamson <me@jspha.com>
 Stability   : unstable
 Portability : portable
 
-"Data.Graph.Builder" is a declarative, monadic language for building
+@Data.Graph.Builder@ is a declarative, monadic language for building
 graphs, especially trees. It supports both undirected ('UGraphBuilder'
 and 'buildUGraph') and directed ('DiGraphBuilder', 'buildDiGraph')
 graphs and allows for optional polymorphic labels on both the vertices
 and the edges.
 
 The types chosen are designed for easy import from the builder into
-some other graph library such as FGL or Graphviz.
+some other graph library such as FGL.
 
 Here's an example of building a simple, unlabeled, digraph
 
-@@
+@
 g = runDiGraphBuilder $ do
   [a, b, c] <- vtcs_ 3
   link_ a b
   d <- vtc_ [b, c]
   link_ d a
   graph_
-@@
+@
 
-**Still to do**
+/Still to do/
 
-- Graph unfolds
-- Pointed graphs
-- Graph gluing
-- Testing
+* Graph unfolds
+
+* Pointed graphs
+
+* Graph gluing
 
 -}
 
@@ -159,12 +160,11 @@ g0 = GraphState { vxs = M.empty, es = M.empty }
 -- indicates that we must provide both the edge and vertex labeling
 -- functions. These are local functions which can be used to propagate
 -- graph labels.
-vtxF :: EdgeType e =>
-         (Maybe a -> Maybe b) ->
-         -- ^ Link labeler
-         ([Maybe a] -> Maybe a) -> [Vertex]
-         -- ^ Vertex labeler
-         -> GraphBuilder e a b Vertex
+vtxF :: EdgeType e
+        => (Maybe a -> Maybe b)   -- ^ Link labeler
+        -> ([Maybe a] -> Maybe a) -- ^ Vertex labeler
+        -> [Vertex]               -- ^ List of parent vertices
+        -> GraphBuilder e a b Vertex
 vtxF ef lf parents = GraphBuilder $ do
   gs@(GraphState { vxs = vxs, es = es }) <- get
   let this = Vertex (M.size vxs + 1)
